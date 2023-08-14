@@ -1,0 +1,26 @@
+{
+    "status": "success",
+    "generationTime": 1.0585711002349854,
+    "id": 35490155,
+    "output": [
+        "https:\/\/cdn2.stablediffusionapi.com\/generations\/62a29cfa-a885-44bb-91a9-3dab6d216a9d-0.png",
+        "https:\/\/cdn2.stablediffusionapi.com\/generations\/62a29cfa-a885-44bb-91a9-3dab6d216a9d-1.png"
+    ],
+    "meta": {
+        "H": 512,
+        "W": 512,
+        "enable_attention_slicing": "true",
+        "file_prefix": "62a29cfa-a885-44bb-91a9-3dab6d216a9d",
+        "guidance_scale": 7.5,
+        "model": "runwayml\/stable-diffusion-v1-5",
+        "n_samples": 2,
+        "negative_prompt": "",
+        "outdir": "out",
+        "prompt": "Exquisite traditional sherwani with intricate embroidery; paired with regal mojari shoes, a statement necklace, and a majestic turban.",
+        "revision": "fp16",
+        "safetychecker": "yes",
+        "seed": 4262595052,
+        "steps": 20,
+        "vae": "stabilityai\/sd-vae-ft-mse"
+    }
+}
