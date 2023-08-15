@@ -77,7 +77,7 @@ app.post("/q1", async (req, res) => {
                 "negative_prompt": null,
                 "width": "512",
                 "height": "512",
-                "samples": "2",
+                "samples": "4",
                 "num_inference_steps": "20",
                 "seed": null,
                 "guidance_scale": 7.5,
