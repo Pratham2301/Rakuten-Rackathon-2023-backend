@@ -41,11 +41,11 @@ app.post("/q1", async (req, res) => {
 
         const { prompt } = req.body;
 
-        console.log(" 1 - ", prompt);
+        // console.log(" 1 - ", prompt);
 
         const newPrompt = JSON.stringify(prompt) + "analyze the above data and generate a short prompt for generative AI to suggest proper outfit"
 
-        console.log(" 2 - ", newPrompt);
+        // console.log(" 2 - ", newPrompt);
 
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
@@ -56,12 +56,12 @@ app.post("/q1", async (req, res) => {
         });
 
         // console.log(response);
-        console.log("response : ", response.data.choices[0].message);
+        // console.log("response : ", response.data.choices[0].message);
 
         const generatedPrompt = response.data.choices[0].message.content;
         // gpt wala done
 
-        console.log("generatedPrompt : ", generatedPrompt);
+        // console.log("generatedPrompt : ", generatedPrompt);
 
         // diffusion wala shuru
 
@@ -72,7 +72,7 @@ app.post("/q1", async (req, res) => {
             'https://stablediffusionapi.com/api/v3/text2img',
 
             {
-                "key": "UkCArMTp0uCp25BTqo7FmOGVVk82lyX575FOyW6fHgDTqnIVkVeCzfFsbAKd",
+                "key": process.env.DIFFUSION_KEY,
                 "prompt": generatedPrompt,
                 "negative_prompt": null,
                 "width": "512",
@@ -93,7 +93,7 @@ app.post("/q1", async (req, res) => {
         )
             .then(function (response) {
 
-                console.log(response);
+                // console.log(response);
 
                 // const responseJSON = (response.body);
                 // console.log(responseJSON);
@@ -105,11 +105,11 @@ app.post("/q1", async (req, res) => {
 
                 const outputArray = response.data.output
 
-                console.log("outputArray :: ", outputArray);
+                // console.log("outputArray :: ", outputArray);
 
                 finalAns = outputArray
 
-                console.log("final ans :: ", finalAns);
+                // console.log("final ans :: ", finalAns);
 
 
                 return res.status(200).json({
@@ -139,7 +139,7 @@ app.post("/q1", async (req, res) => {
 
     } catch (error) {
 
-        console.log(error)
+        // console.log(error)
 
         return res.status(400).json({
             success: false,
@@ -150,6 +150,110 @@ app.post("/q1", async (req, res) => {
         });
     }
 });
+
+
+
+
+app.post("/q2", async (req, res) => {
+    try {
+
+        const { prompt } = req.body;
+
+        // console.log(" 1 - ", prompt);
+
+        const newPrompt = JSON.stringify(prompt)
+
+        // console.log(" 2 - ", newPrompt);
+
+    
+        // diffusion wala shuru
+
+        var finalAns = []
+
+        axios.post(
+
+            'https://stablediffusionapi.com/api/v3/text2img',
+
+            {
+                "key": process.env.DIFFUSION_KEY,
+                "prompt": newPrompt,
+                "negative_prompt": null,
+                "width": "512",
+                "height": "512",
+                "samples": "4",
+                "num_inference_steps": "20",
+                "seed": null,
+                "guidance_scale": 7.5,
+                "safety_checker": "yes",
+                "multi_lingual": "no",
+                "panorama": "no",
+                "self_attention": "no",
+                "upscale": "no",
+                "embeddings_model": null,
+                "webhook": null,
+                "track_id": null
+            }
+        )
+            .then(function (response) {
+
+                // console.log(response);
+
+                // const responseJSON = (response.body);
+                // console.log(responseJSON);
+
+
+                // const responseObject = JSON.parse(responseJSON);
+                // const outputArray = responseObject.output;
+
+
+                const outputArray = response.data.output
+
+                // console.log("outputArray :: ", outputArray);
+
+                finalAns = outputArray
+
+                // console.log("final ans :: ", finalAns);
+
+
+                return res.status(200).json({
+                    success: true,
+                    // data: response.data.choices[0].message,
+                    data: finalAns,
+                });
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+
+        // console.log(" last wala..... ", finalAns);
+
+        // return res.status(200).json({
+        //     success: false,
+        //     data: ".then not working....",
+        // });
+
+
+
+
+
+
+    } catch (error) {
+
+        // console.log(error)
+
+        return res.status(400).json({
+            success: false,
+            res1: error,
+            error: error.response
+                ? error.response.data
+                : "There was an issue on the server",
+        });
+    }
+});
+
 
 const PORT = process.env.PORT || 5000;
 
