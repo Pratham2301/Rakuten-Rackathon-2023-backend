@@ -153,7 +153,6 @@ app.post("/q1", async (req, res) => {
 
 
 
-
 app.post("/q2", async (req, res) => {
     try {
 
@@ -165,7 +164,7 @@ app.post("/q2", async (req, res) => {
 
         // console.log(" 2 - ", newPrompt);
 
-    
+
         // diffusion wala shuru
 
         var finalAns = []
@@ -253,6 +252,66 @@ app.post("/q2", async (req, res) => {
         });
     }
 });
+
+
+
+
+app.post('/q3', (req, res) => {
+
+    try {
+
+        const { link, prompt } = req.body;
+
+        console.log(link, prompt)
+
+        axios.post(
+
+            'https://stablediffusionapi.com/api/v3/img2img',
+            {
+                "key": process.env.DIFFUSION_KEY,
+                "prompt": prompt,
+                "negative_prompt": null,
+                "init_image": link,
+                "width": "512",
+                "height": "512",
+                "samples": "1",
+                "num_inference_steps": "30",
+                "safety_checker": "no",
+                "enhance_prompt": "yes",
+                "guidance_scale": 7.5,
+                "strength": 0.7,
+                "seed": null,
+                "webhook": null,
+                "track_id": null
+            }
+        )
+            .then(function (response) {
+
+                const fdata = response.data.data
+
+                return {
+                    status: true,
+                    output: fdata
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    } catch (error) {
+
+        // console.log(error)
+
+        return res.status(400).json({
+            success: false,
+            res1: error,
+            error: error.response
+                ? error.response.data
+                : "There was an issue on the server",
+        });
+    }
+})
 
 
 const PORT = process.env.PORT || 5000;
