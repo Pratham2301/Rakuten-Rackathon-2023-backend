@@ -287,12 +287,14 @@ app.post('/q3', (req, res) => {
         )
             .then(function (response) {
 
-                const fdata = response.data.data
+                const fdata = response.data
 
-                return {
+                console.log(fdata)
+
+                return res.status(200).json({
                     status: true,
                     output: fdata
-                }
+                });
 
             })
             .catch(function (error) {
