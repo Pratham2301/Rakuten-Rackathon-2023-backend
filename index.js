@@ -293,7 +293,7 @@ app.post('/q3', (req, res) => {
 
                 return res.status(200).json({
                     status: true,
-                    output: fdata
+                    data: fdata
                 });
 
             })
